@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Story Page</title>
+    <style>
+        body {
+            background-color: #000; /* Completely dark background */
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #fff; /* Default text color */
+        }
+
+        .container {
+            max-width: 600px; /* Maximum width for larger screens */
+            margin: 40px auto; /* Center the container */
+            padding: 20px; /* Add padding */
+            text-align: center;
+        }
+
+        .image {
+            width: 100%; /* Full width */
+            height: 1000px; /* Maintain aspect ratio */
+            max-height: 600px; /* Set a maximum height for the images */
+            border-radius: 10px; /* Slight border radius */
+            margin-bottom: 20px; /* Space below the image */
+        }
+
+        h1 {
+            font-size: 2em; /* Responsive font size */
+            margin: 20px 0; /* Space above and below */
+        }
+
+        .text {
+            font-size: 1.2em; /* Responsive font size */
+            margin: 20px 0; /* Space above and below */
+            opacity: 1; /* Start visible */
+            transition: opacity 0.5s; /* Smooth transition for opacity */
+        }
+
+        .button {
+            background-color: #101310; /* Button color */
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em; /* Responsive font size */
+            transition: background-color 0.3s, transform 0.3s; /* Smooth transition */
+        }
+
+        .button:hover {
+            background-color: #121f13; /* Hover effect */
+            transform: scale(1.05); /* Slightly enlarge on hover */
+        }
+
+        /* Animation for disappearing */
+        .fade-out {
+            animation: fadeOut 0.5s forwards; /* Fade out animation */
+        }
+
+        @keyframes fadeOut {
+            0% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-10px); /* Move up slightly */
+            }
+        }
+
+        /* Animation for reappearing */
+        .fade-in {
+            animation: fadeIn 0.5s forwards; /* Fade in animation */
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(10px); /* Start slightly below */
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0); /* End at normal position */
+            }
+        }
+        .man {
+            color: rgb(0, 225, 255); /* Blue color for specified text */
+            text-shadow: 
+            0 0 5px rgba(255, 255, 255, 0.514);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.5em; /* Smaller font size for mobile */
+            }
+
+            .text {
+                font-size: 1em; /* Smaller font size for mobile */
+            }
+
+            .button {
+                padding: 8px 16px; /* Smaller padding for mobile */
+                font-size: 0.9em; /* Smaller font size for mobile */
+            }
+        }
+
+        /* Initially hide the last image */
+        #lastImage {
+            display: none; /* Hide the last image */
+        }
+
+        /* Style for the music button */
+        .music-button {
+            position: absolute; /* Position it in the top right corner */
+            top: 20px; /* Distance from the top */
+            right: 20px; /* Distance from the right */
+            background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent background */
+            color: #000; /* Text color */
+            border: none; /* No border */
+            border-radius: 5px; /* Rounded corners */
+            padding: 10px 15px; /* Padding */
+            font-size: 1em; /* Font size */
+            cursor: pointer; /* Pointer cursor */
+ transition: background-color 0.3s; /* Smooth transition */
+        }
+
+        .music-button:hover {
+            background-color: rgba(255, 255, 255, 0.7); /* Change background on hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <audio id="backgroundMusic" loop>
+            <source src="littlenightmares.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+        <img src="corridor.jpeg" class="image" id="accidentImage" alt="Accident Image">
+        <img src="calendar.jpg" class="image" id="lastImage" alt="Last Thing Image">
+        <h1 id="header">It surely was scary when you woke up. <br> <span class="man">Am I all alone in this hospital? <br> Where is everyone?</span> </h1>
+        <div class="text" id="storyText">
+            <span class="man">So, I need to find a way to escape from here.<br>First I need to check the rooms at least to find some life.</span>
+        </div>
+        <button class="button" onclick="location.href='door1.html'">door left 1</button>
+        <button class="button" onclick="location.href='door2.html'">door left 2</button>
+        <button class="button" onclick="location.href='door3.html'">Main door</button>
+        <button class="button" onclick="location.href='door4.html'">door right 1</button>
+        <button class="button" onclick="location.href='door5.html'">door right 2</button>
+        <button class="music-button" id="musicBoxButton">Play Music</button>
+    </div>
+    <script>
+        window.onload = function() {
+            var audio = document.getElementById('backgroundMusic');
+            audio.play().catch(function(error) {
+                console.log('Audio playback failed:', error);
+            });
+        };
+
+        document.getElementById('musicBoxButton').onclick = function() {
+            var audio = document.getElementById('backgroundMusic');
+            audio.currentTime = 0; // Reset to start
+            audio.play().catch(function(error) {
+                console.log('Audio playback failed:', error);
+            });
+        };
+    </script>
+</body>
+</html>

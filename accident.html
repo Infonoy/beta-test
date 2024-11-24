@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Story Page</title>
+    <style>
+        body {
+            background-color: #000; /* Completely dark background */
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #fff; /* Default text color */
+        }
+
+        .container {
+            max-width: 600px; /* Maximum width for larger screens */
+            margin: 40px auto; /* Center the container */
+            padding: 20px; /* Add padding */
+            text-align: center;
+        }
+
+        .image {
+            width: 100%; /* Full width */
+            border-radius: 10px; /* Slight border radius */
+            margin-bottom: 20px; /* Space below the image */
+        }
+
+        h1 {
+            font-size: 2em; /* Responsive font size */
+            margin: 20px 0; /* Space above and below */
+        }
+
+        .text {
+            font-size: 1.2em; /* Responsive font size */
+            margin: 20px 0; /* Space above and below */
+            opacity: 1; /* Start visible */
+            transition: opacity 0.5s; /* Smooth transition for opacity */
+        }
+
+        .text.hidden {
+            opacity: 0; /* Hide text */
+        }
+
+        .button {
+            background-color: #101310; /* Button color */
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em; /* Responsive font size */
+            transition: background-color 0.3s, transform 0.3s; /* Smooth transition */
+        }
+
+        .button:hover {
+            background-color: #121f13; /* Hover effect */
+            transform: scale(1.05); /* Slightly enlarge on hover */
+        }
+
+        /* Animation for disappearing */
+        .fade-out {
+            animation: fadeOut 0.5s forwards; /* Fade out animation */
+        }
+
+        @keyframes fadeOut {
+            0% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-10px); /* Move up slightly */
+            }
+        }
+
+        /* Animation for reappearing */
+        .fade-in {
+            animation: fadeIn 0.5s forwards; /* Fade in animation */
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(10px); /* Start slightly below */
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0); /* End at normal position */
+            }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.5em; /* Smaller font size for mobile */
+            }
+
+            .text {
+                font-size: 1em; /* Smaller font size for mobile */
+            }
+
+            .button {
+                padding: 8px 16px; /* Smaller padding for mobile */
+                font-size: 0.9em; /* Smaller font size for mobile */
+            }
+        }
+
+        /* Initially hide the last image */
+        #lastImage {
+            display: none; /* Hide the last image */
+        }
+        
+        .man {
+            color: rgb(0, 225, 255); /* Blue color for specified text */
+            text-shadow: 
+            0 0 5px rgba(255, 255, 255, 0.514);
+            display: none; /* Initially hide the text */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="accident.jpg" class="image" id="accidentImage" alt="Accident Image"> <!-- Accident image -->
+        <img src="last thing.jpeg" class="image" id="lastImage" alt="Last Thing Image"> <!-- Last image hidden -->
+        <h1 id="header">You happily drove your car...</h1>
+        <div class="text" id="storyText">
+            and you were tired and wanted to go your home faster, so you started to drive. First you thought was that you are rich now because you bought your first car. And it was not a cheap one but an expensive. By dreaming about your future, your eyes slightly fell down and you slept for the 5 seconds. <br>
+        </div>
+        <p class="man" id="hiddenText">Damn it. I just bought my dream car and started a business. Everything must be started by now, then why. Why do I need to die right now. Why? Is that all? Everything I've done ends today? Without granting my business plans, making family and other dreams. Can't I just grant them like others did? Ok, so anyway the last thing I want is now just sleeping well because I worked all day and nights without breaks, so just let me sleep a little bit.</p><br>
+        <button class="button" id="continueButton" onclick="continueStory()">Continue</button>
+        <button class="button" id="nextChapterButton" style="display: none;" onclick="location.href='hospital.html'">Sleep</button>
+    </div>
+
+    <script>
+        function continueStory() {
+            // Change the text
+            const storyText = document.getElementById('storyText');
+            const hiddenText = document.getElementById('hiddenText');
+            hiddenText.style.display = 'inline'; // Show the hidden text
+            storyText.innerHTML = 
+                "When you fell asleep this moment, a big truck came and hit you. <br> The last thing you saw was the truck and your destroyed car and you laying on the ground. ";
+            
+            // Add fade-out class to the continue button
+            const continueButton = document.getElementById('continueButton');
+            continueButton.classList.add('fade-out');
+           
+            const header = document.getElementById('header');
+            header.innerHTML = 
+                "And then this happened!";
+
+            // Wait for the animation to finish before hiding the button
+            continueButton.addEventListener('animationend', function() {
+                continueButton.style.display = 'none'; // Hide the button
+                
+                // Hide the accident image
+                document.getElementById('accidentImage').style.display = 'none';
+                
+                // Show the last image
+                document.getElementById('lastImage').style.display = 'block';
+                
+                // Show the next chapter button
+                document.getElementById('nextChapterButton').style.display = 'inline-block';
+                
+                // Animate the text change
+                storyText.classList.add('fade-in');
+                storyText.classList.add('visible'); // Make text visible
+            });
+        }
+    </script>
+</body>
+</html>

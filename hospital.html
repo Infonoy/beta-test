@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Story Page</title>
+    <style>
+        body {
+            background-color: #000; /* Completely dark background */
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #fff; /* Default text color */
+        }
+
+        .container {
+            max-width: 600px; /* Maximum width for larger screens */
+            margin: 40px auto; /* Center the container */
+            padding: 20px; /* Add padding */
+            text-align: center;
+        }
+
+        .image {
+            width: 100%; /* Full width */
+            border-radius: 10px; /* Slight border radius */
+            margin-bottom: 20px; /* Space below the image */
+        }
+
+        h1 {
+            font-size: 2em; /* Responsive font size */
+            margin: 20px 0; /* Space above and below */
+        }
+
+        .text {
+            font-size: 1.2em; /* Responsive font size */
+            margin: 20px 0; /* Space above and below */
+            opacity: 1; /* Start visible */
+            transition: opacity 0.5s; /* Smooth transition for opacity */
+        }
+
+        .man {
+            color: rgb(0, 225, 255); /* Blue color for specified text */
+            text-shadow: 
+            0 0 5px rgba(255, 255, 255, 0.514);
+        }
+        .mun {
+            color: rgb(0, 225, 255); /* Blue color for specified text */
+            text-shadow: 
+            0 0 5px rgba(255, 255, 255, 0.514);
+            display: none;
+        }
+        .button {
+            background-color: #101310; /* Button color */
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em; /* Responsive font size */
+            transition: background-color 0.3s, transform 0.3s; /* Smooth transition */
+        }
+
+        .button:hover {
+            background-color: #121f13; /* Hover effect */
+            transform: scale(1.05); /* Slightly enlarge on hover */
+        }
+
+        /* Animation for disappearing */
+        .fade-out {
+            animation: fadeOut 0.5s forwards; /* Fade out animation */
+        }
+
+        @keyframes fadeOut {
+            0% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-10px); /* Move up slightly */
+            }
+        }
+
+        /* Animation for reappearing */
+        .fade-in {
+            animation: fadeIn 0.5s forwards; /* Fade in animation */
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(10px); /* Start slightly below */
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0); /* End at normal position */
+            }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.5em; /* Smaller font size for mobile */
+            }
+
+            .text {
+                font-size: 1em; /* Smaller font size for mobile */
+            }
+
+            .button {
+                padding: 8px 16px; /* Smaller padding for mobile */
+                font-size: 0.9em; /* Smaller font size for mobile */
+            }
+        }
+
+        /* Initially hide the last image */
+        #lastImage {
+            display: none; /* Hide the last image */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="hostpital.jpg" class="image" id="accidentImage" alt="Accident Image">
+        <img src="calendar.jpg" class="image" id="lastImage" alt="Last Thing Image">
+        <h1 id="header">When you woke up you were already in hospital.</h1>
+        <div class="text" id="storyText">
+            But deep inside your mind, something was unclear.<br>
+            After 5 minutes, you calmed down and started to imagine what happened yesterday? <br> <span class="man">Wait a minute! </span> you said. Maybe its your 3rd or even first month.<br>
+            You even didn’t know when it happened, all you remember was you had an accident, that’s all. <br> You wanted to know what day is it today.
+        </div>
+        <p class="mun" id="hiddenText">What the...! When it happened it was 2024 November , but now its 2025 ,that means i was in coma for 4 months.</p><br>
+        <button class="button" id="continueButton" onclick="continueStory()">Turn around</button>
+        <button class="button" id="nextChapterButton" style="display: none;" onclick="location.href='hospital2.html'">Back</button>
+    </div>
+
+    <script>
+        function continueStory() {
+            // Change the text
+            const hiddenText = document.getElementById('hiddenText');
+            hiddenText.style.display = 'inline'; // Show the hidden text
+            const storyText = document.getElementById('storyText');
+            storyText.innerHTML = 
+           "You looked the calendar and got shocked."
+            const header = document.getElementById('header');
+            header.innerHTML = 
+                "As you turn around you found a calendar.And you found out that today is 3.march.2025";
+
+            // Add fade-out class to the continue button
+            const continueButton = document.getElementById('continueButton');
+            continueButton.classList.add('fade-out');
+            
+            // Wait for the animation to finish before hiding the button
+            continueButton.addEventListener('animationend', function() {
+                continueButton.style.display = 'none'; // Hide the button
+                
+                // Hide the accident image
+                document.getElementById('accidentImage').style.display = 'none';
+                
+                // Show the last image
+                document.getElementById('lastImage').style.display = 'block';
+                
+                // Show the next chapter button
+                document.getElementById('nextChapterButton').style.display = 'inline-block';
+                
+                // Animate the text change
+                storyText.classList.add('fade-in');
+                storyText.classList.add('visible'); // Make text visible
+            });
+        }
+    </script>
+</body>
+</html>

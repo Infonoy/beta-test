@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Story Page</title>
+    <style>
+        body {
+            background-color: #000; /* Completely dark background */
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #fff; /* Default text color */
+        }
+
+        .container {
+            max-width: 700px; /* Maximum width for larger screens */
+            margin: 40px auto; /* Center the container */
+            padding: 20px; /* Add padding */
+            text-align: center;
+        }
+
+        .image {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none; /* Initially hide all images */
+        }
+
+        h1 {
+            font-size: 2em; /* Responsive font size */
+            margin: 20px 0; /* Space above and below */
+        }
+
+        .text {
+            font-size: 1.2em; /* Responsive font size */
+            margin: 20px 0; /* Space above and below */
+            opacity: 1; /* Start visible */
+            transition: opacity 0.5s; /* Smooth transition for opacity */
+        }
+
+        .man {
+            color: rgb(0, 225, 255); /* Blue color for specified text */
+            text-shadow: 
+            0 0 5px rgba(255, 255, 255, 0.514);
+        }
+
+        .button {
+            background-color: #101310; /* Button color */
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em; /* Responsive font size */
+            transition: background-color 0.3s, transform 0.3s; /* Smooth transition */
+        }
+        .button:hover {
+            background-color: #121f13; /* Hover effect */
+            transform: scale(1.05); /* Slightly enlarge on hover */
+        }
+
+        /* Initially hide the last image */
+        #oldwoman {
+            display: none; /* Hide the last image */
+        }
+
+        /* Initially hide the grab doctor button */
+        #turnBack {
+            display: none; /* Hide the grab doctor button */
+        }
+
+        /* Initially hide the back button */
+        #huhButton {
+            display: none; /* Hide the back button */
+        }
+        .woman{
+            color: rgb(139, 1, 173);
+        }
+        .girl{
+            color: rgb(247, 0, 255);
+        }
+        /* Animation for fading in */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="anoldwomancabinet.jpg" class="image" id="firstImage" alt="Accident Image" style="display: block;">
+        <img src="switch.jpg" class="image" id="switchImage" alt="Second Image">
+        <img src="anoldwoman.jpg" class="image" id="oldwoman" alt="Last Thing Image">
+        <img src="glow.jpg" class="image" id="glowImage" alt="Glow Image">
+        <img src="girl.jpg" class="image" id="GirlImage" alt="Girl Image">
+        <h1 id="dialogueHeader" class="man">First of this time you finally saw a life in this condition.</h1>
+        <div class="text" id="narrationText">
+            <p class="man">Why every time when I enter the room, <br> there always will be these strange symbols. <br> But one thing I understand was this woman's name is Betany. <br> Why is this room so dark? I think I have to turn the light on.</p>
+        </div>
+        <div class="text" id="narration">
+        </div>
+        <button class="button" id="turnAroundButton" onclick="contStory()">Turn on</button>
+        <button class="button" id="turnBack" style="display: none;" onclick="holdHim()">Turn back</button>
+        <button class="button" id="huhButton" style="display: none;" onclick="HuhStory()">Huh?</button>
+        <button class="button" id="waitButton" style="display: none;" onclick="GirlStory()">Wait a munit</button>
+    </div>
+
+    <script>
+        function contStory() {
+            // Change the image and text without animations
+            const firstImage = document.getElementById('firstImage');
+            const switchImage = document.getElementById('switchImage');
+            const dialogueHeader = document.getElementById('dialogueHeader');
+            const narrationText = document.getElementById('narrationText');
+            const turnAroundButton = document.getElementById('turnAroundButton');
+            const turnBack = document.getElementById('turnBack');
+
+            // Hide the first image without animation
+            firstImage.style.display = 'none'; 
+            // Show the second image without animation
+            switchImage.style.display = 'block'; 
+            // Update the header and story text
+            dialogueHeader.innerHTML = "There. Now it will be a bit more visible.";
+            narrationText.innerHTML = "<p class='man'></p>";
+            // Hide the continue button and show the grab doctor button
+            turnAroundButton.style.display = 'none';
+            turnBack.style.display = 'inline-block';
+        }
+
+        function holdHim() {
+            // Change the image and text for the hold him action
+            const switchImage = document.getElementById('switchImage');
+            const oldwoman = document.getElementById('oldwoman');
+            const dialogueHeader = document.getElementById('dialogueHeader');
+            const narrationText = document.getElementById('narrationText');
+            const turnBack = document.getElementById('turnBack');
+            const huhButton = document.getElementById('huhButton');
+
+            // Hide the second image
+            switchImage.style.display = 'none'; 
+            // Show the last image with animation
+            oldwoman.style.display = 'block'; 
+            oldwoman.style.animation = 'fadeIn 0.5s'; // Apply fade-in animation
+
+            // Update the header and story text
+            dialogueHeader.innerHTML = "What the fuck!!! Granny, I'm sorry.";
+            narrationText.innerHTML = "<p class='man'>I didn't mean to wake you up. <br> And why are you here alone? Is there anyone who cares about you? <br> And how did you change the room? What is the most important thing is who are you? <br> <span class='woman'>Hey...hey..calm down, I'm not some kind of evil soul or something like that.<br> It's just ... how can I say it to you... I'm just like you.</span> <br> What do you mean like me? <span class='woman'> <br> Do you think you are in a coma?</span> <br> Yes..I think (to be honest, I didn't think about it before coming here). Is that mean I'm dead? <br> <span class='woman'>No, you are not dead nor alive. You are between death and life or long story short you are undead.</span> <br> It's so confusing how is this even possible I can't understand anything.<br><span class='woman'>It seems like you won't believe me. Ok, I'll prove that it's not real.</span></p>";
+            // Hide the grab doctor button and show the exit button
+            turnBack.style.display = 'none';
+            huhButton.style.display = 'inline-block';
+        }
+
+        function HuhStory() {
+            // Change the image and text for the Huh action
+            const glowImage = document.getElementById('glowImage');
+            const oldwoman = document.getElementById('oldwoman');
+            const dialogueHeader = document.getElementById('dialogueHeader');
+            const narrationText = document.getElementById('narrationText');
+            const huhButton = document.getElementById('huhButton');
+
+            // Hide the imagination image
+            oldwoman.style.display = 'none'; 
+            // Show the glow image with animation
+            glowImage.style.display = 'block'; 
+            glowImage.style.animation = 'fadeIn 0.5s'; // Apply fade-in animation
+
+            // Update the header and story text
+            dialogueHeader.innerHTML = "Huh? I cant see anything.";
+            narrationText.innerHTML = "<p class='man'></p>";
+            // Hide the exit button
+            huhButton.style.display = 'none';
+            waitButton.style.display = 'inline-block';
+        }        
+        function GirlStory() {
+            // Change the image and text for the Huh action
+            const glowImage = document.getElementById('glowImage');
+            const GirlImage = document.getElementById('GirlImage');
+            const dialogueHeader = document.getElementById('dialogueHeader');
+            const narrationText = document.getElementById('narrationText');
+            const waitButton = document.getElementById('waitButton');
+            // Hide the glow image
+            glowImage.style.display = 'none'; 
+            // Show the girl image with animation
+            GirlImage.style.display = 'block'; 
+            GirlImage.style.animation = 'fadeIn 0.5s'; // Apply fade-in animation
+            // Update the header and story text
+            dialogueHeader.innerHTML = "The room changed again,but what`s importantly the woman changed too!.";
+            narrationText.innerHTML = "<p class='man'>Wait a minute..you now a girl ,but at the same time you are old.Ohhh my brain is in pain and i`m so confused. <br><span class='girl'>Don`t panic,it`s real me, my real appearance. <br>As you can see i can change only this room and i`m so afraid going to outside.</span><br>And how long have you been here <br><span class='girl'>hHmmmmm...maybe about 12 years..or is it 14..Anyway i can`t remember it.</span><br>And another question.Why did you greet with me with old appearance.<br><span class='girl'>Hahaha!Ok i`ll tell you , as you can i`ve been here for many years aloneand i wanted to see the another person`s emotion and i it was the safest  </span></p>";
+            // Hide the wait button
+            waitButton.style.display = 'none';
+        }
+    </script>
+</body>
+</html>

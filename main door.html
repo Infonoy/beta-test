@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Story Page</title>
+    <style>
+        body {
+            background-color: #000; /* Completely dark background */
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #fff; /* Default text color */
+            overflow: hidden; /* Prevent scrolling */
+        }
+
+        .container {
+            max-width: 750px; /* Maximum width for larger screens */
+            margin: 40px auto; /* Center the container */
+            padding: 20px; /* Add padding */
+            text-align: center;
+            position: relative; /* Position relative for absolute elements */
+            z-index: 1; /* Ensure it is above the video */
+        }
+
+        .image {
+            width: 100%; /* Full width */
+            height: 400px; /* Set a height for the images */
+            border-radius: 10px; /* Slight border radius */
+            margin-bottom: 20px; /* Space below the image */
+        }
+
+        h1 {
+            font-size: 2em; /* Responsive font size */
+            margin: 20px 0; /* Space above and below */
+        }
+
+        .text {
+            font-size: 1.2em; /* Responsive font size */
+            margin: 20px 0; /* Space above and below */
+            opacity: 1; /* Start visible */
+            transition: opacity 0.5s; /* Smooth transition for opacity */
+        }
+
+        .man {
+            color: rgb(0, 225, 255); /* Blue color for specified text */
+            text-shadow: 
+            0 0 5px rgba(255, 255, 255, 0.514);
+        }
+
+        .button {
+            background-color: #101310; /* Button color */
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em; /* Responsive font size */
+            transition: background-color 0.3s, transform 0.3s; /* Smooth transition */
+        }
+
+        .button:hover {
+            background-color: #121f13; /* Hover effect */
+            transform: scale(1.05); /* Slightly enlarge on hover */
+        }
+
+        /* Animation for disappearing */
+        .fade-out {
+            animation: fadeOut 0.5s forwards; /* Fade out animation */
+        }
+
+        @keyframes fadeOut {
+            0% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-10px); /* Move up slightly */
+            }
+        }
+
+        /* Animation for reappearing */
+        .fade-in {
+            animation: fadeIn 0.5s forwards; /* Fade in animation */
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(10px); /* Start slightly below */
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0); /* End at normal position */
+            }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.5em; /* Smaller font size for mobile */
+            }
+
+            .text {
+                font-size: 1em; /* Smaller font size for mobile */
+            }
+
+            .button {
+                padding: 8px 16px; /* Smaller padding for mobile */
+                font-size: 0.9em; /* Smaller font size for mobile */
+            }
+        }
+
+        input[type="password"] {
+            background: grey;
+            padding: 10px;
+            height: 20px;
+            width: 20em;
+            margin-bottom: 50px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+        }
+
+        /* Video styles */
+        #screamerVideo {
+            display: none; /* Initially hide the video */
+            position: fixed; /* Fixed position for full screen */
+            top: 0;
+            left: 0;
+            width: 100vw; /* Full width */
+            height: 100vh; /* Full height */
+            object-fit: cover; /* Cover the entire screen */
+            z-index: 10; /* Ensure it is above everything else */
+        }
+
+        /* Style for the music button */
+        .music-button {
+            position: absolute; top: 20px; /* Distance from the top */
+            right: 20px; /* Distance from the right */
+            background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent background */
+            color: #000; /* Text color */
+            border: none; /* No border */
+            border-radius: 5px; /* Rounded corners */
+            padding: 10px 15px; /* Padding */
+            font-size: 1em; /* Font size */
+            cursor: pointer; /* Pointer cursor */
+            transition: background-color 0.3s; /* Smooth transition */
+        }
+
+        .music-button:hover {
+            background-color: rgba(255, 255, 255, 0.7); /* Change background on hover */
+        }
+
+        /* Initially hide the last image */
+        #lastImage {
+            display: none; /* Hide the last image */
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="storyContainer">
+        <audio id="backgroundMusic" loop>
+            <source src="littlenightmares.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+        <img src="corridor.jpeg" class="image" id="accidentImage" alt="Accident Image">
+        <h1 id="header">It surely was scary when you woke up. <br> <span class="man">Am I all alone in this hospital? <br> Where is everyone?</span> </h1>
+        <div class="text" id="storyText">
+            <span class="man">So, I need to find a way to escape from here.<br>First I need to check the rooms at least to find some life.</span>
+        </div>
+        <button class="button" onclick="navigateTo('door1')">door left 1</button>
+        <button class="button" onclick="navigateTo('door2')">door left 2</button>
+        <button class="button" onclick="navigateTo('door3')">Main door</button>
+        <button class="button" onclick="navigateTo('door4')">door right 1</button>
+        <button class="button" onclick="navigateTo('door5')">door right 2</button>
+        <button class="music-button" id="musicBoxButton">Play Music</button>
+    </div>
+
+    <video id="screamerVideo" src="screamer.mp4" playsinline></video>
+
+    <script>
+        const correctPassword = "183b7"; // Set your correct password here
+        let attempts = 0;
+        const maxAttempts = 3; // Maximum number of attempts
+
+        window.onload = function() {
+            var audio = document.getElementById('backgroundMusic');
+            audio.play().catch(function(error) {
+                console.log('Audio playback failed:', error);
+            });
+        };
+
+        document.getElementById('musicBoxButton').onclick = function() {
+            var audio = document.getElementById('backgroundMusic');
+            if (audio.paused) {
+                audio.play().catch(function(error) {
+                    console.log('Audio playback failed:', error);
+                });
+                this.textContent = 'Pause Music'; // Change button text to 'Pause Music'
+            } else {
+                audio.pause(); // Pause the music
+                this.textContent = 'Play Music'; // Change button text back to 'Play Music'
+            }
+        };
+
+        function validatePassword() {
+            const inputPassword = document.getElementById("password").value;
+
+            if (inputPassword === correctPassword) {
+                // Redirect to the next page
+                window.location.href = "index.html"; // Change this to your desired page
+            } else {
+                attempts++;
+                alert("Password incorrect. Try again.");
+                if (attempts >= maxAttempts) {
+                    // Show the screamer video
+                    showScreamer();
+                }
+            }
+        }
+
+        function showScreamer() {
+            const video = document.getElementById("screamerVideo");
+            video.style.display = 'block'; // Show the video
+            video.play(); // Play the video
+            video.requestFullscreen(); // Request full screen
+
+            // Redirect to outside.html after the video ends
+            video.onended = function() {
+                window.location.href = 'outside.html';
+            };
+
+            // Prevent exiting fullscreen
+            document.addEventListener('fullscreenchange', function() {
+                if (!document.fullscreenElement) {
+                    video.requestFullscreen(); // Re-enter fullscreen
+                }
+            });
+        }
+
+        function navigateTo(door) {
+            const storyContainer = document.getElementById('storyContainer');
+            const audio = document.getElementById('backgroundMusic'); // Keep the audio reference
+
+            if (door === 'door1') {
+                storyContainer.innerHTML = `
+                    <img src="room1.jpg" class="image" alt="Room 1 Image">
+                    <h1 class="man">When I entered the room <br> I realized that my room was way better than this.</h1>
+                    <div class="text">
+                        So this room pretty was sure a haunted cabinet and there was a figure in the window, <br> <span class="man">What does it mean?</span> you thought. 
+                    </div>
+                    <button class="button" onclick="navigateTo('back')">Back</button>
+                    <button class="music-button" id="musicBoxButton">Play Music</button>
+                `;
+            } else if (door === 'door2') {
+                storyContainer.innerHTML = `
+                    <img src="room2.jpg" class="image" id="accidentImage" alt="Accident Image">
+                    <img src="note.jpeg" class="image" id="lastImage" alt="Last Thing Image" style="display: none;">
+                    <h1 id="header" class="man">This room is beautiful if I compare with these rooms, <br> but one thing still bothering me, <br>Where is everyone?</h1>
+                    <div class="text" id="storyText">
+                        Again, when you entered the room you see a strange symbol on the wall <br> <span class="man">What could it be?</span>. <br> And there was one more you were interested in <br> <span class="man">What’s inside the shelf?</span>
+                    </div>
+                    <button class="button" id="continueButton" onclick="continueStory()">Check the shelf</button> <br>
+                    <button class="button" onclick="navigateTo('back')">Back</button>
+                    <button class="music-button" id="musicBoxButton">Play Music</button>
+                `;
+            } else if (door === 'door3') {
+                // Main door logic
+                storyContainer.innerHTML = `
+                    <img src="main door.jpg" class="image" id="accidentImage" alt="Accident Image">
+                    <h1 id="header">Oh it seems like the door has a password!</h1>
+                    <div class="text" id="storyText">
+                        <p class="man">There is only one way to escape from here and it asks me to write a password.<br>I gotta find it</p>
+                    </div>
+                    <input type="password" id="password" placeholder="Password">
+                    <button class="button" onclick="validatePassword()">Submit</button><br>
+                    <button class="button" onclick="navigateTo('back')">Back</button>
+                    <button class="music-button" id="musicBoxButton">Play Music</button>
+                `;
+            } else if (door === 'door4') {
+                // Door right 1 logic
+                storyContainer.innerHTML = `
+                    <img src="room3.jpg" class="image" alt="Room Right 1 Image">
+                    <h1 class="man">You opened the door to the right and found a dark room.</h1>
+                    <div class="text">
+                        It feels eerie, and you can hear whispers. <br> <span class="man">Should I go in?</span>
+                    </div>
+                    <button class="button" onclick="navigateTo('back')">Back</button>
+                    <button class="music-button" id="musicBoxButton">Play Music</button>
+                `;
+            } else if (door === 'door5') {
+                // Door right 2 logic
+                storyContainer.innerHTML = `
+                    <img src="room4.jpg" class="image" alt="Room Right 2 Image">
+                    <h1 class="man">This room is filled with strange artifacts.</h1>
+                    <div class="text">
+                        You feel a sense of history here. <br> <span class="man">What secrets does this room hold?</span>
+                    </div>
+                    <button class="button" onclick="navigateTo('back')">Back</button>
+                    <button class="music-button" id="musicBoxButton">Play Music</button>
+                `;
+            } else if (door === 'back') {
+                // Reset to the initial state without stopping the music
+                storyContainer.innerHTML = `
+                    <img src="corridor.jpeg" class="image" id="accidentImage" alt="Accident Image">
+                    <h1 id="header">It surely was scary when you woke up. <br> <span class="man"> Am I all alone in this hospital? <br> Where is everyone?</span> </h1>
+                    <div class="text" id="storyText">
+                        <span class="man">So, I need to find a way to escape from here.<br>First I need to check the rooms at least to find some life.</span>
+                    </div>
+                    <button class="button" onclick="navigateTo('door1')">door left 1</button>
+                    <button class="button" onclick="navigateTo('door2')">door left 2</button>
+                    <button class="button" onclick="navigateTo('door3')">Main door</button>
+                    <button class="button" onclick="navigateTo('door4')">door right 1</button>
+                    <button class="button" onclick="navigateTo('door5')">door right 2</button>
+                    <button class="music-button" id="musicBoxButton">Play Music</button>
+                `;
+            }
+
+            // Reattach the music button functionality
+            document.getElementById('musicBoxButton').onclick = function() {
+                if (audio.paused) {
+                    audio.play().catch(function(error) {
+                        console.log('Audio playback failed:', error);
+                    });
+                    this.textContent = 'Pause Music'; // Change button text to 'Pause Music'
+                } else {
+                    audio.pause(); // Pause the music
+                    this.textContent = 'Play Music'; // Change button text back to 'Play Music'
+                }
+            };
+
+            if (door === 'door2') {
+                const continueButton = document.getElementById('continueButton');
+                continueButton.addEventListener('click', continueStory);
+            }
+        }
+
+        function continueStory() {
+            // Change the text
+            const header = document.getElementById('header');
+            header.innerHTML = "Wow. I hope in the near future someone explains to me what’s happening here.";
+
+            // Add fade-out class to the continue button
+            const continueButton = document.getElementById('continueButton');
+            continueButton.classList.add('fade-out');
+            
+            // Wait for the animation to finish before hiding the button
+            continueButton.addEventListener('animationend', function() {
+                continueButton.style.display = 'none'; // Hide the button
+                
+                // Hide the accident image
+                document.getElementById('accidentImage').style.display = 'none';
+                
+                // Show the last image
+                document.getElementById('lastImage').style.display = 'block';
+                
+                // Update the text after the image change
+                const newStoryText = "When you open the shelf you found a paper and in it a letter..";
+                document.getElementById('storyText').innerHTML = newStoryText;
+                
+                // Animate the text change
+                document.getElementById('storyText').classList.add('fade-in');
+            });
+        }
+    </script>
+</body>
+</html>
